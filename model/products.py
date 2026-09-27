@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, DateTime, Float, ForeignKey
+from sqlalchemy import Column, String, Integer, DateTime, Float, ForeignKey, Date
 from sqlalchemy.orm import relationship 
 from datetime import datetime
 from typing import Union
@@ -14,7 +14,7 @@ class Products(Base):
     quantity = Column(Float, nullable=False)
     unit = Column(String(150), nullable=False)
     entry_date = Column(DateTime, default=datetime.now, nullable=False)
-    expiration_date = Column(DateTime, nullable=False)
+    expiration_date = Column(Date, nullable=False)
     created_by_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     
     created_by = relationship('Users', back_populates='products')

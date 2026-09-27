@@ -21,14 +21,11 @@ class ProductUnit(str, Enum):
 class ProductCreateSchema(BaseModel):
     '''Inserção de um Produto'''
     name: str = Field(..., min_length=2, _max_length=255, description='Nome do produto')
-    
     category: ProductCategory = Field(..., description='Categoria do produto')
-    
     quantity: float = Field(..., description='Quantidade do produto')
-    
     unit: ProductUnit = Field(..., description='Unidade de medida')
-
     expiration_date: date = Field(..., description='Data de validade (DD-MM-YYYY)')
+    created_by_id: int = Field(..., description='ID do usuário que está criando o produto')
     
 class ProductUpdateSchema(BaseModel):
     '''Atualizar Produto'''

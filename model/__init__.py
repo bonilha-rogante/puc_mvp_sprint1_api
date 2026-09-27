@@ -1,25 +1,21 @@
-from sqlalchemy_utils import database_exists, create_database
+import os
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
-import os
 
 from .base import Base
 from .users import Users
 from .products import Products
 
+# Lê as variáveis de ambiente (carregadas pelo load_dotenv() no app.py)
+DB_USER = os.getenv('DB_USER', 'root')
+DB_PASSWORD = os.getenv('DB_PASSWORD', '')
+DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
+DB_PORT = os.getenv('DB_PORT', '3306')
+DB_NAME = os.getenv('DB_NAME', 'mvp_02')
 
-db_path = 'database/'
+db_url = f'mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}?charset=utf8mb4'
 
-if not os.path.exists(db_path):
-    os.makedirs(db_path)
-    
-db_url = 'sqlite:///%s/db.sqlite3'% db_path
-
-engine = create_engine(db_url, echo=False)
-
+engine = create_engine(db_url, echo=False, pool_recycle=3600)
 Session = sessionmaker(bind=engine)
-
-if not database_exists(engine.url):
-    create_database(engine.url)
     
 Base.metadata.create_all(engine)

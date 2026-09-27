@@ -12,6 +12,13 @@ class Users(Base):
     name = Column(String(150), nullable=False)
     last_name = Column(String(150), nullable=False)
     email = Column(String(150), unique=True, nullable=False)
+    
+    cep = Column(String(9), nullable=False)
+    address = Column(String(255), nullable=False)
+    neighborhood = Column(String(150), nullable=False)
+    city = Column(String(150), nullable=False)
+    state = Column(String(2), nullable=False)
+        
     department = Column(String(50), nullable=False)
     password = Column(String(255), nullable=False)
     created_at = Column(DateTime, default=datetime.now, nullable=False)
@@ -21,12 +28,17 @@ class Users(Base):
     products = relationship('Products', back_populates='created_by')
     
     
-    def __init__(self, name:str, last_name:str, email:str, department:str, password:str):
+    def __init__(self, name:str, last_name:str, email:str, cep: str, address: str, neighborhood: str, city: str, state: str, department:str, password:str):
         
         self.name = name
         self.last_name = last_name
         self.email = email
         self.department = department
+        self.cep = cep
+        self.address = address
+        self.neighborhood = neighborhood
+        self.city = city
+        self.state = state
         
         # Vaifazer o hash automático da senha
         # self.password = generate_password_hash(password)
